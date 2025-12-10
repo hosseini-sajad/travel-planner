@@ -6,9 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum UserRole {
-    User(0, "کاربر"),
-    Admin(1, "ادمین"),
-    Backdoor(3, "بک دور");
+    User(0, "user"),
+    Admin(1, "admin"),
+    Backdoor(3, "backdoor");
 
     private final int value;
     private final String Key;
