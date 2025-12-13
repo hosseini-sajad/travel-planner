@@ -1,5 +1,6 @@
 package com.xone.travelplanner.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.xone.travelplanner.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,11 +13,12 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponseDTO {
     private String token;
     private User user;
-    private String message;
     private Integer code;
+    private String message;
     private Map<String, Object> additionalInfo;
 
     public static UserResponseDTO success(String token, User user) {
@@ -27,13 +29,9 @@ public class UserResponseDTO {
     }
 
     public static UserResponseDTO error(Integer code, String errorMessage) {
-        UserResponseDTO response = new UserResponseDTO();
-        response.setMessage(errorMessage);
-        response.setCode(code);
-//        if (response.getAdditionalInfo() == null) {
-//            response.setAdditionalInfo(new HashMap<>());
-//        }
-//        response.getAdditionalInfo().put("error", errorMessage);
-        return response;
+        return UserResponseDTO.builder()
+                .code(code)
+                .message(errorMessage)
+                .build();
     }
 }

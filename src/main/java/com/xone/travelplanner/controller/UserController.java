@@ -75,11 +75,10 @@ public class UserController {
             
         } catch (TravelException e) {
             UserResponseDTO errorResponse = UserResponseDTO.error(e.getCode(), e.getMessage());
-            errorResponse.setCode(401); // Unauthorized
+            errorResponse.setCode(errorResponse.getCode());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         } catch (Exception e) {
             UserResponseDTO errorResponse = UserResponseDTO.error(500, e.getMessage());
-            errorResponse.setCode(500); // Internal Server Error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }

@@ -1,5 +1,6 @@
 package com.xone.travelplanner.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xone.travelplanner.core.Gender;
 import com.xone.travelplanner.core.UserRole;
 import com.xone.travelplanner.model.base.BaseEntity;
@@ -21,6 +22,7 @@ import java.util.Date;
 public class User extends BaseEntity {
     private String name;
     private String email;
+    @JsonIgnore
     private String password;
     private Boolean isActive;
     private Gender gender;
@@ -29,5 +31,6 @@ public class User extends BaseEntity {
     private UserRole role;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date lastLogin;
 }

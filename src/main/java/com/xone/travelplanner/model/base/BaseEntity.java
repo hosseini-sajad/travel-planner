@@ -1,5 +1,6 @@
 package com.xone.travelplanner.model.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +16,10 @@ public abstract class BaseEntity {
     private Integer id;
 
     @Version
+    @JsonIgnore
     private Integer version;
 
     @Column(nullable = false)
+    @JsonIgnore
     private EntityState entityState;
 }
