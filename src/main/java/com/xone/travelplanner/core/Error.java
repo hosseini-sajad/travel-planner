@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Error {
-    ERROR01("0001", "Username is not valid"),
-    ERROR02("0002", "Username is not active"),
-    ERROR03("0003", "Please enter a valid username"),
-    ERROR04("0004", "Please enter a valid password"),
-    ERROR05("0005", "Password must be more than 6 characters long"),
+    EMAIL_IS_NOT_VALID(1, "Email is not valid"),
+    EMAIL_IS_ALREADY_IN_USE(2, "Email is already in use!"),
+    PASSWORD_IS_NOT_VALID(6, "Password is not valid"),
 
     ;
 
-    final String code;
+    final Integer code;
     final String message;
 }

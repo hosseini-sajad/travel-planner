@@ -7,11 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TravelException extends Exception {
-    String code;
+    Integer code;
     String message;
 
     public TravelException(Error error) {
-        super(error.code + "::" + error.message);
+        super(error.message + "::" + error.code);
         this.code = error.code;
         this.message = error.message;
     }

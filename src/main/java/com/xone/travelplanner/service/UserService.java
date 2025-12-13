@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
-    void signup(User user) throws TravelException;
+    void register(User user) throws TravelException;
 
     User findByEmail(String email);
+    
+    User login(String email, String password) throws TravelException;
 }
