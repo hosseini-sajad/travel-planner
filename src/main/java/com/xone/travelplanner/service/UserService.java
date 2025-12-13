@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public interface UserService {
     void register(User user) throws TravelException;
 
-    User findByEmail(String email);
+    User findByEmail(String email) throws TravelException;
     
     User login(String email, String password) throws TravelException;
 }

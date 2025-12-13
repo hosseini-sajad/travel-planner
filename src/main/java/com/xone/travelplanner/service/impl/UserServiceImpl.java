@@ -40,15 +40,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+    public User findByEmail(String email) throws TravelException {
+        return userRepository.findByEmailAndEntityState(email, EntityState.PERSISTENT)
+                .orElseThrow(() -> new TravelException(Error.USER_NOT_FOUND));
     }
 
     @Override
     @Transactional
     public User login(String email, String password) throws TravelException {
-        User user = userRepository.findByEmail(email)
+        User user = userRepository.findByEmailAndEntityState(email, EntityState.PERSISTENT)
                 .orElseThrow(() -> new TravelException(Error.EMAIL_IS_NOT_VALID));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
