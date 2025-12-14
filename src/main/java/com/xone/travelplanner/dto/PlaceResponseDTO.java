@@ -1,7 +1,7 @@
 package com.xone.travelplanner.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.xone.travelplanner.model.User;
+import com.xone.travelplanner.model.Place;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,21 +12,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserResponseDTO {
-    private String token;
-    private User user;
+public class PlaceResponseDTO {
+    private Place place;
     private Integer code;
     private String message;
 
-    public static UserResponseDTO success(String token, User user) {
-        return UserResponseDTO.builder()
-                .token(token)
-                .user(user)
+    public static PlaceResponseDTO success(String message) {
+        return PlaceResponseDTO.builder()
+                .message(message)
                 .build();
     }
 
-    public static UserResponseDTO error(Integer code, String errorMessage) {
-        return UserResponseDTO.builder()
+    public static PlaceResponseDTO error(Integer code, String errorMessage) {
+        return PlaceResponseDTO.builder()
                 .code(code)
                 .message(errorMessage)
                 .build();

@@ -6,14 +6,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.event.internal.EntityState;
 
+import java.util.UUID;
+
 @MappedSuperclass
 @Getter
 @Setter
 public abstract class BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Version
     @JsonIgnore
