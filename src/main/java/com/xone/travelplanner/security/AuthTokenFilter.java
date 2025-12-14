@@ -20,6 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
@@ -38,9 +39,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String email = jwtUtils.getEmailFromJwtToken(jwt);
-
-                User user = userService.findByEmail(email);
+                UUID id = UUID.fromString(jwtUtils.getIdFromJwtToken(jwt));
+                User user = userService.findById(id);
 
                 List<GrantedAuthority> authorities =
                         Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()));

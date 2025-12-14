@@ -4,7 +4,11 @@ import com.xone.travelplanner.core.TravelException;
 import com.xone.travelplanner.model.Place;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface PlaceService {
     void addPlace(Place place) throws TravelException;
+
+    List<Place> getAllPlaces();
 }

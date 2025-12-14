@@ -1,6 +1,5 @@
 package com.xone.travelplanner.security;
 
-import com.xone.travelplanner.model.User;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtUtils {
@@ -36,17 +36,16 @@ public class JwtUtils {
         return null;
     }
 
-    public String generateTokenFromEmail(User user) {
-        String username = user.getEmail();
+    public String generateTokenFromId(UUID userId) {
         return Jwts.builder()
-                .subject(username)
+                .subject(userId.toString())
                 .issuedAt(new Date())
                 .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(key())
                 .compact();
     }
 
-    public String getEmailFromJwtToken(String token) {
+    public String getIdFromJwtToken(String token) {
         return Jwts.parser()
                 .verifyWith((SecretKey) key())
                 .build().parseSignedClaims(token)

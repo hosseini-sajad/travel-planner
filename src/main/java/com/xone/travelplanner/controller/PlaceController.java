@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/places")
@@ -41,9 +42,18 @@ public class PlaceController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllTrips() {
-        // TODO: Implement get all trips logic
-        return ResponseEntity.ok("Get all trips endpoint");
+    public ResponseEntity<PlaceResponseDTO> getAllPlaces() {
+        try {
+            List<Place> places = placeService.getAllPlaces();
+            PlaceResponseDTO response = PlaceResponseDTO.builder()
+                    .places(places)
+                    .build();
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(PlaceResponseDTO.error(500, "Error retrieving places: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/{id}")

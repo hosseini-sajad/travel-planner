@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -40,8 +40,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(String email) throws TravelException {
-        return userRepository.findByEmailAndEntityState(email, EntityState.PERSISTENT)
+    public User findById(UUID id) throws TravelException {
+        return userRepository.findByIdAndEntityState(id, EntityState.PERSISTENT)
                 .orElseThrow(() -> new TravelException(Error.USER_NOT_FOUND));
     }
 

@@ -9,6 +9,7 @@ import org.hibernate.event.internal.EntityState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 @Service
 public class PlaceServiceImpl implements PlaceService {
@@ -28,5 +29,11 @@ public class PlaceServiceImpl implements PlaceService {
         place.setReviewCount(0L);
         place.setEntityState(EntityState.PERSISTENT);
         placeRepository.save(place);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<Place> getAllPlaces() {
+        return placeRepository.findAll();
     }
 }

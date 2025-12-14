@@ -43,7 +43,7 @@ public class UserController {
             userService.register(user);
             
             // Generate JWT token
-            String token = jwtUtils.generateTokenFromEmail(user);
+            String token = jwtUtils.generateTokenFromId(user.getId());
             
             // Create and return success response
             return ResponseEntity.ok(
@@ -67,7 +67,7 @@ public class UserController {
             User user = userService.login(loginDto.getEmail(), loginDto.getPassword());
             
             // Generate JWT token
-            String token = jwtUtils.generateTokenFromEmail(user);
+            String token = jwtUtils.generateTokenFromId(user.getId());
             
             // Create and return success response
             UserResponseDTO response = UserResponseDTO.success(token, user);
