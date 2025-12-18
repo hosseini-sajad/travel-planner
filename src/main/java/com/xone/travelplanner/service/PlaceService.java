@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public interface PlaceService {
-    void addPlace(Place place) throws TravelException;
+    Place addPlace(Place place) throws TravelException;
 
     List<Place> getAllPlaces();
 }

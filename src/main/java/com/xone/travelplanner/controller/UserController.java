@@ -1,9 +1,9 @@
 package com.xone.travelplanner.controller;
 
 import com.xone.travelplanner.core.TravelException;
+import com.xone.travelplanner.dto.AuthenticationResponse;
 import com.xone.travelplanner.dto.UserLoginDTO;
 import com.xone.travelplanner.dto.UserRegisterDTO;
-import com.xone.travelplanner.dto.UserResponseDTO;
 import com.xone.travelplanner.model.User;
 import com.xone.travelplanner.security.JwtUtils;
 import com.xone.travelplanner.service.UserService;
@@ -33,53 +33,35 @@ public class UserController {
     private ModelMapper modelMapper;
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDTO> registerUser(
-            @Valid @RequestBody UserRegisterDTO userDto) {
-        try {
-            // Convert DTO to Entity
-            User user = modelMapper.map(userDto, User.class);
-            
-            // Create the user
-            userService.register(user);
-            
-            // Generate JWT token
-            String token = jwtUtils.generateTokenFromId(user.getId());
-            
-            // Create and return success response
-            return ResponseEntity.ok(
-                UserResponseDTO.success(
-                    token, 
-                    user
-                )
-            );
-        } catch (TravelException e) {
-            return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(UserResponseDTO.error(e.getCode(), e.getMessage()));
-        }
+    public ResponseEntity<AuthenticationResponse> registerUser(
+            @Valid @RequestBody UserRegisterDTO userDto
+    ) throws TravelException {
+        User user = modelMapper.map(userDto, User.class);
+
+        userService.register(user);
+
+        String token = jwtUtils.generateTokenFromId(user.getId());
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(AuthenticationResponse.builder()
+                        .token(token)
+                        .user(user)
+                        .build());
     }
-    
+
     @PostMapping("/login")
-    public ResponseEntity<UserResponseDTO> loginUser(
-            @Valid @RequestBody UserLoginDTO loginDto) {
-        try {
-            // Authenticate user and update first login status if needed
-            User user = userService.login(loginDto.getEmail(), loginDto.getPassword());
-            
-            // Generate JWT token
-            String token = jwtUtils.generateTokenFromId(user.getId());
-            
-            // Create and return success response
-            UserResponseDTO response = UserResponseDTO.success(token, user);
-            return ResponseEntity.ok(response);
-            
-        } catch (TravelException e) {
-            UserResponseDTO errorResponse = UserResponseDTO.error(e.getCode(), e.getMessage());
-            errorResponse.setCode(errorResponse.getCode());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-        } catch (Exception e) {
-            UserResponseDTO errorResponse = UserResponseDTO.error(500, e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
+    public ResponseEntity<AuthenticationResponse> loginUser(
+            @Valid @RequestBody UserLoginDTO loginDto
+    ) throws TravelException {
+        User user = userService.login(loginDto.getEmail(), loginDto.getPassword());
+
+        String token = jwtUtils.generateTokenFromId(user.getId());
+
+        AuthenticationResponse response = AuthenticationResponse.builder()
+                .token(token)
+                .user(user)
+                .build();
+
+        return ResponseEntity.ok(response);
     }
 }

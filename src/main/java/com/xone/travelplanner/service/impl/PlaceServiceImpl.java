@@ -19,7 +19,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     @Transactional
-    public void addPlace(Place place) throws TravelException {
+    public Place addPlace(Place place) throws TravelException {
         if (placeRepository.existsByTitleAndCityAndCountryAndLatitudeAndLongitude(
                 place.getTitle(), place.getCity(), place.getCountry(), place.getLatitude(), place.getLongitude())) {
             throw new TravelException(Error.PLACE_ALREADY_EXISTS);
@@ -28,7 +28,7 @@ public class PlaceServiceImpl implements PlaceService {
         place.setRating(0L);
         place.setReviewCount(0L);
         place.setEntityState(EntityState.PERSISTENT);
-        placeRepository.save(place);
+        return placeRepository.save(place);
     }
     
     @Override
