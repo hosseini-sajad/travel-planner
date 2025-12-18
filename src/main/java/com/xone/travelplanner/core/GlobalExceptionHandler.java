@@ -15,7 +15,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(TravelException.class)
     public ResponseEntity<ErrorResponse> handleTravelException(TravelException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        HttpStatus status = ex.getStatus() != null ? ex.getStatus() : HttpStatus.BAD_REQUEST;
+
+        return ResponseEntity.status(status)
                 .body(ErrorResponse.builder()
                         .code(ex.getCode())
                         .message(ex.getMessage())
