@@ -23,7 +23,7 @@ public class PlaceController {
     private ModelMapper modelMapper;
 
     @PostMapping
-    public ResponseEntity<Place> createTrip(
+    public ResponseEntity<Place> createPlace(
             @Valid @RequestBody PlaceDto placeDto
     ) throws TravelException {
         Place place = modelMapper.map(placeDto, Place.class);
