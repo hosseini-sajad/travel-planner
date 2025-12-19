@@ -1,9 +1,7 @@
 package com.xone.travelplanner.model;
 
 import com.xone.travelplanner.model.base.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -31,4 +29,11 @@ public class Place extends BaseEntity {
     private Long rating;
     private Long reviewCount;
     private Boolean isFeatured;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+            name = "created_by_user_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_place_created_by_user")
+    )
+    private User createdBy;
 }

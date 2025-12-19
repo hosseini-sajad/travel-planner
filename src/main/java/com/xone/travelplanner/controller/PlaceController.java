@@ -3,13 +3,16 @@ package com.xone.travelplanner.controller;
 import com.xone.travelplanner.core.TravelException;
 import com.xone.travelplanner.dto.PlaceDto;
 import com.xone.travelplanner.model.Place;
+import com.xone.travelplanner.model.User;
 import com.xone.travelplanner.service.PlaceService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -24,10 +27,11 @@ public class PlaceController {
 
     @PostMapping
     public ResponseEntity<Place> createPlace(
-            @Valid @RequestBody PlaceDto placeDto
+            @Valid @RequestBody PlaceDto placeDto,
+            @AuthenticationPrincipal User currentUser
     ) throws TravelException {
         Place place = modelMapper.map(placeDto, Place.class);
-        Place createdPlace = placeService.addPlace(place);
+        Place createdPlace = placeService.addPlace(place, currentUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPlace);
     }
 

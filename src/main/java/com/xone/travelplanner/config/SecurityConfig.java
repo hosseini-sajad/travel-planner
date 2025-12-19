@@ -21,16 +21,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
-            AuthEntryPointJwt unauthorizedHandler,
+            AuthEntryPointJwt authEntryPointJwt,
             AuthTokenFilter authTokenFilter
     ) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(authEntryPointJwt)
+                        .accessDeniedHandler(authEntryPointJwt))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/user/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/places/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/places/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/places/**").hasRole("Admin")
                         .anyRequest().authenticated()
                 );
 
