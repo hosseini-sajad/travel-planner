@@ -14,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/places")
@@ -42,9 +43,9 @@ public class PlaceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPlaceById(@PathVariable Long id) {
-        // TODO: Implement get trip by id logic
-        return ResponseEntity.ok("Get trip by id: " + id);
+    public ResponseEntity<Place> getPlaceById(@PathVariable UUID id) throws TravelException {
+        Place place = placeService.getPlaceById(id);
+        return ResponseEntity.ok(place);
     }
 
     @DeleteMapping("/{id}")

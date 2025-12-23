@@ -11,6 +11,7 @@ public enum Error {
     PASSWORD_IS_NOT_VALID(4, "Password is not valid", HttpStatus.UNAUTHORIZED),
     PLACE_ALREADY_EXISTS(5, "Place already exists!", HttpStatus.BAD_REQUEST),
     PLACE_CREATION_RESTRICTED(6, "Only admins can create places", HttpStatus.FORBIDDEN),
+    PLACE_NOT_FOUND(7, "Place not found", HttpStatus.NOT_FOUND),
 
     ;
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PlaceServiceImpl implements PlaceService {
@@ -43,5 +44,11 @@ public class PlaceServiceImpl implements PlaceService {
     @Transactional(readOnly = true)
     public List<Place> getAllPlaces() {
         return placeRepository.findAll();
+    }
+
+    @Override
+    public Place getPlaceById(UUID id) throws TravelException {
+        return placeRepository.findById(id)
+                .orElseThrow(() -> new TravelException(Error.PLACE_NOT_FOUND));
     }
 }
