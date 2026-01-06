@@ -1,5 +1,6 @@
 package com.xone.travelplanner.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xone.travelplanner.model.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -46,5 +47,6 @@ public class Place extends BaseEntity {
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_place_created_by_user")
     )
+    @JsonIgnore
     private User createdBy;
 }

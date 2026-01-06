@@ -18,10 +18,13 @@ public class PlaceImage extends BaseEntity {
     private String altText;
     private Integer position;
     @Transient
+    @JsonIgnore
     private String base64Content;
     @Transient
+    @JsonIgnore
     private String fileName;
     @Transient
+    @JsonIgnore
     private String contentType;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
