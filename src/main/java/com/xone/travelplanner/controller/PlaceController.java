@@ -6,12 +6,12 @@ import com.xone.travelplanner.model.Place;
 import com.xone.travelplanner.model.User;
 import com.xone.travelplanner.service.PlaceService;
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,16 +23,12 @@ public class PlaceController {
     @Autowired
     private PlaceService placeService;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
     @PostMapping
     public ResponseEntity<Place> createPlace(
             @Valid @RequestBody PlaceDto placeDto,
             @AuthenticationPrincipal User currentUser
     ) throws TravelException {
-        Place place = modelMapper.map(placeDto, Place.class);
-        Place createdPlace = placeService.addPlace(place, currentUser);
+        Place createdPlace = placeService.addPlace(placeDto, currentUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPlace);
     }
 
@@ -46,6 +42,18 @@ public class PlaceController {
     public ResponseEntity<Place> getPlaceById(@PathVariable UUID id) throws TravelException {
         Place place = placeService.getPlaceById(id);
         return ResponseEntity.ok(place);
+    }
+
+    @PostMapping(path = "/{id}/images", consumes = "multipart/form-data")
+    public ResponseEntity<Place> uploadPlaceImage(
+            @PathVariable UUID id,
+            @RequestParam(value = "altText", required = false) String altText,
+            @RequestParam(value = "position", required = false) Integer position,
+            @RequestPart("file") MultipartFile file,
+            @AuthenticationPrincipal User currentUser
+    ) throws TravelException {
+        Place place = placeService.addImage(id, altText, position, file, currentUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(place);
     }
 
     @DeleteMapping("/{id}")

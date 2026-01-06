@@ -4,6 +4,9 @@ import com.xone.travelplanner.model.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(
         name = "place",
@@ -29,6 +32,14 @@ public class Place extends BaseEntity {
     private Long rating;
     private Long reviewCount;
     private Boolean isFeatured;
+    @Builder.Default
+    @OneToMany(
+            mappedBy = "place",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @OrderBy("position ASC")
+    private List<PlaceImage> images = new ArrayList<>();
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "created_by_user_id",

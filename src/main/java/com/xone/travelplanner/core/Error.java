@@ -12,6 +12,8 @@ public enum Error {
     PLACE_ALREADY_EXISTS(5, "Place already exists!", HttpStatus.BAD_REQUEST),
     PLACE_CREATION_RESTRICTED(6, "Only admins can create places", HttpStatus.FORBIDDEN),
     PLACE_NOT_FOUND(7, "Place not found", HttpStatus.NOT_FOUND),
+    IMAGE_UPLOAD_FAILED(8, "Unable to upload image", HttpStatus.INTERNAL_SERVER_ERROR),
+    IMAGE_UPLOAD_FAILED_INTO_MINIO(9, "Unable to upload image into minio", HttpStatus.INTERNAL_SERVER_ERROR)
 
     ;
 
